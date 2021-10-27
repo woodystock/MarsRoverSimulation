@@ -45,5 +45,6 @@ const validatePathInput = (input) => RegExp(/^[LRM]*$/).test(input);
 
 module.exports = {
     validateGridInput,
-    validateRoverInput
+    validateRoverInput,
+    validatePathInput
 }
