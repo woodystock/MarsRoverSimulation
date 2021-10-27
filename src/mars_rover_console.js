@@ -113,5 +113,8 @@ module.exports = {
     validatePlateauInput,
     validateRoverInput,
     validatePathInput,
-    handleMarsRoverConsoleInputs
+    handleMarsRoverConsoleInputs,
+    handlePlateauInput,
+    handleRoverInput,
+    handlePathInput
 }

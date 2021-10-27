@@ -1,4 +1,4 @@
-const { validatePlateauInput, validateRoverInput, validatePathInput, handleMarsRoverConsoleInputs } = require("../src/mars_rover_console");
+const { validatePlateauInput, validateRoverInput, validatePathInput, handleMarsRoverConsoleInputs, handlePlateauInput, handleRoverInput, handlePathInput } = require("../src/mars_rover_console");
 
 describe("validatePlateauInput():",() => {
     test.each([
@@ -80,5 +80,23 @@ describe("marsRoverConsoleInputs()", () => {
 
         //assert
         expect(result).toEqual(outputs);
+    });
+});
+
+describe("control the program using manual functions", () => {
+    test("5 5 . 1 2 N . LMLMLMLMM . 3 3 E . MMRMMRMRRM => 1 3 N . 5 1 E", () => {
+        //arrange
+        const plateau = handlePlateauInput("5 5");
+        //act
+        const rover1Index = handleRoverInput(plateau, "1 2 N");
+        const output1 = handlePathInput(plateau,rover1Index, "LMLMLMLMM");
+        
+        const rover2Index = handleRoverInput(plateau, "3 3 E");
+        const output2 = handlePathInput(plateau,rover2Index, "MMRMMRMRRM");
+        
+
+        //assert
+        expect(output1).toBe("1 3 N");
+        expect(output2).toBe("5 1 E")
     });
 });
