@@ -1,7 +1,15 @@
 const { mars_log } = require("./mars_log");
 const { createRover } = require("./mars_rover");
-
+/**
+ * A function to create a plateau on mars for rovers to move about on.
+ * 
+ * @param  {} width - the width of the plateau ( >0 )
+ * @param  {} height - the height of the plateau ( >0 )
+ */
 const createGrid = (width,height) => {
+    if(isNaN(width) || isNaN(height))       throw new Error("width and height (as numbers) are required");
+    if(width <= 0 || height <= 0)           throw new Error("width and height must be greater than 0")
+
     return {
         width,
         height,

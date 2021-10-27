@@ -8,27 +8,24 @@ const marsRoverConsoleInputs = ( ...inputs) => {
     {
         const gridInput = inputs.shift();
         if(validateGridInput(gridInput)) {
-            
-            const gridSize = gridInput.split(" ");
-            const grid = createGrid(Number(gridSize[0]), Number(gridSize[1]));
 
+            const grid = handleGridInput(gridInput);
+            
             while(inputs.length > 0) {
                 const roverInput = inputs.shift();
-
                 if(validateRoverInput(roverInput)){
-                    const roverPosition = roverInput.split(" ");
 
-                    const currentRoverIndex = addRover(grid,Number(roverPosition[0]),Number(roverPosition[1]),roverPosition[2]);
+                    const roverIndex = handleRoverInput(grid, roverInput);
 
-                    if(inputs.length > 0)
-                    {
+                    if(inputs.length > 0) {
                         const pathInput = inputs.shift();
 
                         if(validatePathInput(pathInput)) {
-                            navigateRoverPath(grid, currentRoverIndex,pathInput);
+                            navigateRoverPath(grid, roverIndex,pathInput);
                         }
                     }
-                    const rover = getGridContent(grid, currentRoverIndex);
+                    
+                    const rover = getGridContent(grid, roverIndex);
                     outputs.push(rover.x + " " + rover.y + " " + rover.direction);
                 }
                 else throw new Error("invalid rover input sent to mars rover console");
@@ -39,6 +36,18 @@ const marsRoverConsoleInputs = ( ...inputs) => {
 
     return outputs;
 }
+
+const handleGridInput = (input) => {
+    const gridSize = input.split(" ");
+    return createGrid(Number(gridSize[0]), Number(gridSize[1]));
+}
+
+const handleRoverInput = (grid, input) => {
+    const roverPosition = input.split(" ");
+
+    return addRover(grid,Number(roverPosition[0]),Number(roverPosition[1]),roverPosition[2]);
+} 
+
 
 const validateGridInput = (input) => RegExp(/^[0-9]* [0-9]*$/).test(input);
 const validateRoverInput = (input) => RegExp(/^[0-9]* [0-9]* [NWSE]$/).test(input);
