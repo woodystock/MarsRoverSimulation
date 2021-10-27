@@ -2,8 +2,20 @@ const { DIRECTION, DIRECTION_MODIFIER } = require("./compass_direction")
 const { getGridContent, gridCoordsOutOfBounds, gridCoordsOccupied } = require("./mars_grid");
 const { mars_log } = require("./mars_log");
 
-const navigateRoverPath = (grid,rover,path) => {
+const navigateRoverPath = (grid,roverIndex,path) => {
+    const rover = getGridContent(grid,roverIndex);
 
+    for(const instruction of path) {
+        if(instruction === "L") turnRoverLeft(rover);
+        else if(instruction === "R") turnRoverRight(rover);
+        else if(instruction === "M") {
+            if(! advanceRover(grid,roverIndex)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 const advanceRover = (grid,roverIndex) => {

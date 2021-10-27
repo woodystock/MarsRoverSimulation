@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest test/mars_grid.test.js"
+    "test": "jest test/mars_rover_navigation.test.js"
   },
   "repository": {
     "type": "git",

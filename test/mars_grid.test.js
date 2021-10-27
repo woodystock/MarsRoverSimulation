@@ -1,7 +1,4 @@
 const { createGrid, addRover, gridCoordsOutOfBounds, gridCoordsOccupied, getGridContent } = require("../src/mars_grid");
-const { showMarsLogs } = require("../src/mars_log");
-
-showMarsLogs(false);
 
 describe("createGrid():",() => {
     test.each([

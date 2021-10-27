@@ -1,7 +1,4 @@
-const { showMarsLogs } = require("../src/mars_log");
 const { createRover } = require("../src/mars_rover");
-
-showMarsLogs(false);
 
 describe("createRover():",() => {
     test.each([

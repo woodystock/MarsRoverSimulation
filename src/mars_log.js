@@ -5,11 +5,7 @@ const mars_log = (...msgs) => {
         console.log(msgs.join("\n    => "));
 }
 
-const showMarsLogs = (show) => {
-    _showLogs = show;
-}
 
 module.exports = {
-    mars_log,
-    showMarsLogs
+    mars_log
 }
