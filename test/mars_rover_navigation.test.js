@@ -1,4 +1,4 @@
-const { addRover, getGridContent, createGrid } = require("../src/mars_grid");
+const { addRover, getPlateauContent, createPlateau } = require("../src/mars_plateau");
 const { createRover } = require("../src/mars_rover");
 const { turnRoverRight, turnRoverLeft, advanceRover, getNextCoords, navigateRoverPath } = require("../src/mars_rover_naviagtion");
 
@@ -61,10 +61,10 @@ describe("getNextCoords():",() => {
 
 describe("advanceRover():",() => {
 
-    let grid;
+    let plateau;
     
     beforeEach(() => {
-        grid = createGrid(6,6);
+        plateau = createPlateau(6,6);
     });
 
     test.each([
@@ -75,11 +75,11 @@ describe("advanceRover():",() => {
     ])("starting at [2, 2] looking %s, advance 1 to [%i, %i]", (direction,endX, endY) => {
 
         //arrange
-        const roverIndex = addRover(grid,2,2,direction);
-        const rover = getGridContent(grid, roverIndex);
+        const roverIndex = addRover(plateau,2,2,direction);
+        const rover = getPlateauContent(plateau, roverIndex);
 
         //act
-        const result = advanceRover(grid, roverIndex);
+        const result = advanceRover(plateau, roverIndex);
 
         //assert
         expect(result).toBe(true);
@@ -94,11 +94,11 @@ describe("advanceRover():",() => {
     ])("starting at [%i,%i] looking %s, do not advance out of bounds", (startX,startY,direction) => {
 
     //arrange
-    const roverIndex = addRover(grid,startX,startY,direction);
-    const rover = getGridContent(grid, roverIndex);
+    const roverIndex = addRover(plateau,startX,startY,direction);
+    const rover = getPlateauContent(plateau, roverIndex);
 
     //act
-    const result = advanceRover(grid, roverIndex);
+    const result = advanceRover(plateau, roverIndex);
 
     //assert
     expect(result).toBe(false);
@@ -109,12 +109,12 @@ describe("advanceRover():",() => {
     test("rover1 at [2,2] looking N, and rover2 at [2,3] looking N, rover1 cannot advance", () => {
 
         //arange
-        const rover1Index = addRover(grid,2,2,"N");
-        const rover2Index = addRover(grid,2,3,"N");
+        const rover1Index = addRover(plateau,2,2,"N");
+        const rover2Index = addRover(plateau,2,3,"N");
 
-        const rover1 = getGridContent(grid,rover1Index);
+        const rover1 = getPlateauContent(plateau,rover1Index);
 
-        const result = advanceRover(grid, rover1Index);
+        const result = advanceRover(plateau, rover1Index);
 
         expect(result).toBe(false);
         expect(rover1).toEqual({type:"rover",x:2,y:2,direction:"N"});
@@ -123,10 +123,10 @@ describe("advanceRover():",() => {
 
 describe("navigateRoverPath():",() => {
 
-    let grid;
+    let plateau;
     
     beforeEach(() => {
-        grid = createGrid(6,6);
+        plateau = createPlateau(6,6);
     });
 
     test.each([
@@ -142,11 +142,11 @@ describe("navigateRoverPath():",() => {
     ])("starting at [%i, %i, %s], follow the path '%s' to get to [%i, %i, %s]", (startX,startY,startDirection,path,endX,endY,endDirection) => {
 
         //arrange
-        const roverIndex = addRover(grid,startX,startY,startDirection);
-        const rover = getGridContent(grid, roverIndex);
+        const roverIndex = addRover(plateau,startX,startY,startDirection);
+        const rover = getPlateauContent(plateau, roverIndex);
 
         //act
-        const result = navigateRoverPath(grid,roverIndex,path);
+        const result = navigateRoverPath(plateau,roverIndex,path);
 
         //assert
         expect(result).toBe(true);
@@ -160,11 +160,11 @@ describe("navigateRoverPath():",() => {
         [6,6,"S","LM"]
     ])("starting at [%i,%i] looking %s, do not follow the path '%s' out of bounds", (startX,startY,direction,path) => {
         //arrange
-        const roverIndex = addRover(grid,startX,startY,direction);
-        const rover = getGridContent(grid, roverIndex);
+        const roverIndex = addRover(plateau,startX,startY,direction);
+        const rover = getPlateauContent(plateau, roverIndex);
 
         //act
-        const result = navigateRoverPath(grid,roverIndex,path);
+        const result = navigateRoverPath(plateau,roverIndex,path);
 
         //assert
         expect(result).toBe(false);
@@ -174,13 +174,13 @@ describe("navigateRoverPath():",() => {
 
     test("rover1 at [1, 1, N], and rover2 at [2, 3, N] rover1 follows path 'MMRMMMMRMMR' but stops before moving into rover2", () => {
         //arrange
-        const rover1Index = addRover(grid,1,1,"N");
-        const rover1 = getGridContent(grid, rover1Index);
-        const rover2Index = addRover(grid,2,3,"N");
+        const rover1Index = addRover(plateau,1,1,"N");
+        const rover1 = getPlateauContent(plateau, rover1Index);
+        const rover2Index = addRover(plateau,2,3,"N");
 
 
         //act
-        const result = navigateRoverPath(grid,rover1Index,"MMRMMMMRMMR");
+        const result = navigateRoverPath(plateau,rover1Index,"MMRMMMMRMMR");
 
         //assert
         expect(result).toBe(false);

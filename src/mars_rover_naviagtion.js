@@ -1,15 +1,15 @@
 const { DIRECTION, DIRECTION_MODIFIER } = require("./compass_direction")
-const { getGridContent, gridCoordsOutOfBounds, gridCoordsOccupied } = require("./mars_grid");
+const { getPlateauContent, plateauCoordsOutOfBounds, plateauCoordsOccupied } = require("./mars_plateau");
 const { mars_log } = require("./mars_log");
 
-const navigateRoverPath = (grid,roverIndex,path) => {
-    const rover = getGridContent(grid,roverIndex);
+const navigateRoverPath = (plateau,roverIndex,path) => {
+    const rover = getPlateauContent(plateau,roverIndex);
 
     for(const instruction of path) {
         if(instruction === "L") turnRoverLeft(rover);
         else if(instruction === "R") turnRoverRight(rover);
         else if(instruction === "M") {
-            if(! advanceRover(grid,roverIndex)) {
+            if(! advanceRover(plateau,roverIndex)) {
                 return false;
             }
         }
@@ -18,18 +18,18 @@ const navigateRoverPath = (grid,roverIndex,path) => {
     return true;
 }
 
-const advanceRover = (grid,roverIndex) => {
-    const rover = getGridContent(grid,roverIndex);
+const advanceRover = (plateau,roverIndex) => {
+    const rover = getPlateauContent(plateau,roverIndex);
 
     const nextCoords = getNextCoords(rover.x, rover.y, rover.direction); 
 
-    if(gridCoordsOutOfBounds(grid,nextCoords.x, nextCoords.y)) {
+    if(plateauCoordsOutOfBounds(plateau,nextCoords.x, nextCoords.y)) {
         mars_log("unable to advance rover","rover would move out of bounds");
         return false;
     }
 
-    if(gridCoordsOccupied(grid,nextCoords.x,nextCoords.y)) {
-        mars_log("unable to advance rover","grid space already occupied");
+    if(plateauCoordsOccupied(plateau,nextCoords.x,nextCoords.y)) {
+        mars_log("unable to advance rover","plateau space already occupied");
         return false;
     }
 

@@ -1,26 +1,26 @@
-const { createGrid, addRover, gridCoordsOutOfBounds, gridCoordsOccupied, getGridContent } = require("../src/mars_grid");
+const { createPlateau, addRover, plateauCoordsOutOfBounds, plateauCoordsOccupied, getPlateauContent } = require("../src/mars_plateau");
 
-describe("createGrid():",() => {
+describe("createPlateau():",() => {
     test.each([
         [6,6],
         [5,2],
         [1,1]
-    ])("a grid of %i x %i", (width,height) => {
+    ])("a plateau of %i x %i", (width,height) => {
 
         //act
-        const grid = createGrid(width,height);
+        const plateau = createPlateau(width,height);
 
         //assert
-        expect(grid).toEqual({width,height,contents:[]});
+        expect(plateau).toEqual({width,height,contents:[]});
     });
 });
 
-describe("gridCoordsOutOfBounds():",() => {
+describe("plateauCoordsOutOfBounds():",() => {
 
-    let grid;
+    let plateau;
 
     beforeEach(() => {
-        grid = createGrid(6,6);
+        plateau = createPlateau(6,6);
     });
 
 
@@ -36,7 +36,7 @@ describe("gridCoordsOutOfBounds():",() => {
     ])('coord [%i, %i] to be %s', (x,y,isInvalid) => {
 
         //act
-        const result = gridCoordsOutOfBounds(grid,x,y);
+        const result = plateauCoordsOutOfBounds(plateau,x,y);
 
         //assert
         expect(result).toBe(isInvalid);
@@ -45,10 +45,10 @@ describe("gridCoordsOutOfBounds():",() => {
 
 describe("addRover():",() => {
 
-    let grid;
+    let plateau;
 
     beforeEach(() => {
-        grid = createGrid(6,6);
+        plateau = createPlateau(6,6);
     });
 
     test.each([
@@ -57,12 +57,12 @@ describe("addRover():",() => {
     ])("at %i , %i looking %s", (x,y,direction) => {
 
         //act
-        const roverIndex = addRover(grid,x,y,direction)
-        const rover = getGridContent(grid,roverIndex);
+        const roverIndex = addRover(plateau,x,y,direction)
+        const rover = getPlateauContent(plateau,roverIndex);
 
         //assert
         expect(rover).toEqual({type:"rover",x:x,y:y,direction:direction});
-        expect(grid).toEqual({
+        expect(plateau).toEqual({
             width:6,
             height:6,
             contents:[rover]
@@ -72,12 +72,12 @@ describe("addRover():",() => {
 
 describe("Checking if coords are already occupied:",() => {
 
-    let grid;
+    let plateau;
 
     beforeEach(() => {
-        grid = createGrid(6,6);
-        addRover(grid,1,2,"N");
-        addRover(grid,4,2,"S");
+        plateau = createPlateau(6,6);
+        addRover(plateau,1,2,"N");
+        addRover(plateau,4,2,"S");
     });
 
 
@@ -91,7 +91,7 @@ describe("Checking if coords are already occupied:",() => {
     ])('coord [%i, %i] to be %s', (x,y,isInvalid) => {
 
         //act
-        const result = gridCoordsOccupied(grid,x,y);
+        const result = plateauCoordsOccupied(plateau,x,y);
 
         //assert
         expect(result).toBe(isInvalid);
@@ -104,15 +104,15 @@ describe("addRover() - validation:",() => {
     test("cannot add rover out of bounds", () => {
 
         //arrange
-        const grid = createGrid(3,3);
+        const plateau = createPlateau(3,3);
 
         //act
-        const roverIndex = addRover(grid,4,4,"N");
-        const rover = getGridContent(grid, roverIndex);
+        const roverIndex = addRover(plateau,4,4,"N");
+        const rover = getPlateauContent(plateau, roverIndex);
 
         //assert
         expect(rover).toBeFalsy()
-        expect(grid).toEqual({
+        expect(plateau).toEqual({
             width:3,
             height:3,
             contents:[]
@@ -122,19 +122,19 @@ describe("addRover() - validation:",() => {
     test("cannot add rover to the same space", () => {
 
         //arrange
-        const grid = createGrid(3,3);
+        const plateau = createPlateau(3,3);
 
         //act
-        const rover1Index = addRover(grid,1,1,"N");
-        const rover2Index = addRover(grid,1,1,"S");
+        const rover1Index = addRover(plateau,1,1,"N");
+        const rover2Index = addRover(plateau,1,1,"S");
 
-        const rover1 = getGridContent(grid,rover1Index);
-        const rover2 = getGridContent(grid,rover2Index);
+        const rover1 = getPlateauContent(plateau,rover1Index);
+        const rover2 = getPlateauContent(plateau,rover2Index);
 
         //assert
         expect(rover1).toEqual({type:"rover",x:1,y:1,direction:"N"})
         expect(rover2).toBeFalsy()
-        expect(grid).toEqual({
+        expect(plateau).toEqual({
             width:3,
             height:3,
             contents:[rover1]
