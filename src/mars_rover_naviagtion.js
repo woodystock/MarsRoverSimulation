@@ -1,11 +1,14 @@
 const { DIRECTION } = require("./compass_direction")
+const { getGridContent } = require("./mars_grid")
 
 const navigateRoverPath = (grid,rover,path) => {
 
 }
 
 const advanceRover = (grid,roverIndex) => {
+    const rover = getGridContent(roverIndex);
 
+    
 }
 
 const turnRoverLeft = (rover) => {
