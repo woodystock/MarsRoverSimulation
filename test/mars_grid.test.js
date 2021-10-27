@@ -3,7 +3,7 @@ const { showMarsLogs } = require("../src/mars_log");
 
 showMarsLogs(false);
 
-describe("Grid creation:",() => {
+describe("createGrid():",() => {
     test.each([
         [6,6],
         [5,2],
@@ -18,7 +18,7 @@ describe("Grid creation:",() => {
     });
 });
 
-describe("Checking if coords are out of bounds:",() => {
+describe("gridCoordsOutOfBounds():",() => {
 
     let grid;
 
@@ -46,7 +46,7 @@ describe("Checking if coords are out of bounds:",() => {
     });
 });
 
-describe("Adding rovers to a 6x6 grid:",() => {
+describe("addRover():",() => {
 
     let grid;
 
@@ -102,9 +102,9 @@ describe("Checking if coords are already occupied:",() => {
 });
 
 
-describe("Adding invalid rovers:",() => {
+describe("addRover() - validation:",() => {
 
-    test("adding a rover out of bounds", () => {
+    test("cannot add rover out of bounds", () => {
 
         //arrange
         const grid = createGrid(3,3);
@@ -122,7 +122,7 @@ describe("Adding invalid rovers:",() => {
         });
     });
 
-    test("adding a rover twice", () => {
+    test("cannot add rover to the same space", () => {
 
         //arrange
         const grid = createGrid(3,3);

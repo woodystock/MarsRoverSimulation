@@ -3,7 +3,7 @@ const { createRover } = require("../src/mars_rover");
 
 showMarsLogs(false);
 
-describe("Rover creation:",() => {
+describe("createRover():",() => {
     test.each([
         [1,2,"N"],
         [4,4,"W"],

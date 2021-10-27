@@ -5,7 +5,7 @@ const { turnRoverRight, turnRoverLeft, advanceRover, getNextCoords } = require("
 
 showMarsLogs(false);
 
-describe("turn rover right:",() => {
+describe("turnRoverRight():",() => {
     test.each([
         ["N","E"],
         ["E","S"],
@@ -24,7 +24,7 @@ describe("turn rover right:",() => {
     });
 });
 
-describe("turn rover left:",() => {
+describe("turnRoverLeft():",() => {
     test.each([
         ["N","W"],
         ["W","S"],
@@ -43,7 +43,7 @@ describe("turn rover left:",() => {
     });
 });
 
-describe("getNextCoords:",() => {
+describe("getNextCoords():",() => {
 
     test.each([
         [1,1,"N",1,2],
@@ -57,12 +57,12 @@ describe("getNextCoords:",() => {
         const newCoords = getNextCoords(startX, startY, direction);
 
         //assert
-        expect(newCoords).toEqual([endX,endY]);
+        expect(newCoords).toEqual({x:endX,y:endY});
     });
 });
 
-/*
-describe("advance rover:",() => {
+
+describe("advanceRover():",() => {
 
     let grid;
     
@@ -73,18 +73,53 @@ describe("advance rover:",() => {
     test.each([
         ["N",2,3],
         ["S",2,1],
-        ["W",3,2],
-        ["E",1,2]
-    ])("starting at [2, 2] looking %s, advance 1 to [%i, %i]", (startDirection,endX, endY) => {
+        ["W",1,2],
+        ["E",3,2]
+    ])("starting at [2, 2] looking %s, advance 1 to [%i, %i]", (direction,endX, endY) => {
 
         //arrange
-        const roverIndex = addRover(grid,2,2,startDirection);
+        const roverIndex = addRover(grid,2,2,direction);
         const rover = getGridContent(grid, roverIndex);
 
         //act
-        advanceRover(grid, roverIndex);
+        const result = advanceRover(grid, roverIndex);
 
         //assert
-        expect(rover).toEqual({type:"rover",x:endX,y:endY,direction:startDirection});
+        expect(result).toBe(true);
+        expect(rover).toEqual({type:"rover",x:endX,y:endY,direction:direction});
     });
-});*/
+
+    test.each([
+        [6,6,"N"],
+        [6,0,"S"],
+        [0,6,"W"],
+        [6,6,"E"]
+    ])("starting at [%i,%i] looking %s, do not advance out of bounds", (startX,startY,direction) => {
+
+    //arrange
+    const roverIndex = addRover(grid,startX,startY,direction);
+    const rover = getGridContent(grid, roverIndex);
+
+    //act
+    const result = advanceRover(grid, roverIndex);
+
+    //assert
+    expect(result).toBe(false);
+    expect(rover).toEqual({type:"rover",x:startX,y:startY,direction:direction});
+
+    });
+
+    test("rover1 at [2,2] looking N, and rover2 at [2,3] looking N, rover1 cannot advance", () => {
+
+        //arange
+        const rover1Index = addRover(grid,2,2,"N");
+        const rover2Index = addRover(grid,2,3,"N");
+
+        const rover1 = getGridContent(grid,rover1Index);
+
+        const result = advanceRover(grid, rover1Index);
+
+        expect(result).toBe(false);
+        expect(rover1).toEqual({type:"rover",x:2,y:2,direction:"N"});
+    });
+});
