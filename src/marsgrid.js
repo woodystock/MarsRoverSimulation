@@ -34,5 +34,6 @@ function gridPostionEmpty(grid, x, y) {
 
 
 module.exports = {
-    createGrid
+    createGrid,
+    addRover
 }
