@@ -1,4 +1,4 @@
-const { validateGridInput, validateRoverInput, validatePathInput } = require("../src/mars_rover_console");
+const { validateGridInput, validateRoverInput, validatePathInput, marsRoverConsoleInputs } = require("../src/mars_rover_console");
 
 describe("validateGridInput():",() => {
     test.each([
@@ -62,4 +62,23 @@ describe("validatePathInput():",() => {
         //assert
         expect(result).toBe(isValid);
     })
+});
+
+describe("marsRoverConsoleInputs()", () => {
+    test.each([
+        [["5 5","1 2 N"], ["1 2 N"]],
+        [["5 5","1 2 N","MM"], ["1 4 N"]],
+        [["5 5","1 2 N","MRM"], ["2 3 E"]],
+        [["5 5","1 2 N","LMLMLMLMM"], ["1 3 N"]],
+        [["5 5","1 2 N","M", "3 3 E"], ["1 3 N","3 3 E"]],
+        [["5 5","1 2 N","M", "3 3 E", "M"], ["1 3 N","4 3 E"]],
+        [["5 5","1 2 N","LMLMLMLMM", "3 3 E", "MMRMMRMRRM"], ["1 3 N","5 1 E"]]
+    ])("inputs: %s => outputs: %s", (inputs, outputs) => {
+
+        //act
+        const result = marsRoverConsoleInputs(...inputs);
+
+        //assert
+        expect(result).toEqual(outputs);
+    });
 });
