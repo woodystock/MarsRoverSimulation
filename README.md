@@ -84,7 +84,7 @@ The second input will place a rover at the given coords, looking in the directio
 
         1 2 N
 
-will place a rover at postion x = 1, y = 2, looking in the direction North.
+will place a rover at postion x = 1, y = 2, looking in the direction <b>N</b>orth.
 
 ## Next input -> Path for the rover to follow
 
@@ -98,11 +98,11 @@ so the path
 
         LMLM
 
-will try to move the robot "<b>left, forward, left, forward</b>" in that order. If it encounters the boundries of the plateau, or another robot, it will stop and not follow any more of the path.
+will try to move the robot "<b>left, forward, left, forward</b>" in that order. If it encounters the boundries of the plateau, or another robot, it will stop at its current position and direction and not continue with any more of the path.
 <br>After this, you can then repeat inputs indefinitly for new rovers and movement paths...
 
 ## Using a single function call
-All the functionality of this program can be run through a single command in the mars_rover_console.js
+All the functionality of this program can be run through a single command in the [mars_rover_console.js](src/mars_rover_console.js)
 
 ```javascript
 function handleMarsRoverConsoleInputs(...inputs)
@@ -117,7 +117,7 @@ The input should be provided as parameters to the function in the order given be
         3 3 E
         MMRMMRMRRM
 
-You would call the function as follows:
+You would call the function like so:
 
 ```javascript
 const output = handleMarsRoverConsoleInputs(
@@ -135,21 +135,21 @@ The output of this call will be a list of all the rovers final positions and dir
         1 3 N
         5 1 E
 
-And in javascript in the form of...
+And in javascript...
 
 ```javascript
 ["1 3 N","5 1 E"]
 ```
 
 ## Calling the inputs manually
-If you want more control over each of the inputs this can be done manually using the following functions
+If you want more control over each of the inputs this can be done manually using the following functions found inside [mars_rover_console.js](src/mars_rover_console.js)
 
 ```javascript
 function handlePlateauInput(input)
 function handleRoverInput(plateau, input)
 function handlePathInput(plateau, roverIndex, input)
 ```
-These functions will validate the given input and do each of the above inputs indvidually. As you can see, rovers require a pre generated plateau and path require a plateau with a given rover index. These are returned by their retrospective input handler...
+These functions will validate the given input and do each of the above inputs seperatlly. As you can see, rovers require a pre-generated plateau and path require a plateau with a given rover index. These are returned by their retrospective input handler...
         
         handlePlateauInput - returns a plateau object
         handleRoverInput - returns the index of the generated rover on the given plateau
