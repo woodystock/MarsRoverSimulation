@@ -1,5 +1,5 @@
 const { DIRECTION } = require("../src/compass_direction");
-const { createRover } = require("../src/marsrover");
+const { createRover } = require("../src/mars_rover");
 
 describe("Rover creation:",() => {
     test("create a rover at 1 2 with direction north", () => {
@@ -11,6 +11,7 @@ describe("Rover creation:",() => {
         const rover = createRover(x, y, DIRECTION.NORTH);
 
         //assert
-        expect(rover).toEqual({type:"rover",x,y,direction:DIRECTION.NORTH});
+        expect(rover).toEqual({type:"rover",x:x,y:y,direction:DIRECTION.NORTH});
     })
+    
 });

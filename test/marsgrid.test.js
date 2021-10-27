@@ -1,4 +1,5 @@
-const { createGrid, addRover } = require("../src/marsgrid");
+const { DIRECTION } = require("../src/compass_direction");
+const { createGrid, addRover } = require("../src/mars_grid");
 
 describe("Grid creation:",() => {
     test("create a grid of 6 x 6", () => {
@@ -28,16 +29,20 @@ describe("Grid creation:",() => {
     })
 });
 
-// describe("Adding rovers:",() => {
-//     test("create a grid of 6 x 6 and add a rover at 1 , 2 looking N", () => {
-//         //arrange
-//         const grid = createGrid(width,height);
+describe("Adding rovers:",() => {
+    test("create a grid of 6 x 6 and add a rover at 1 , 2 looking N", () => {
+        //arrange
+        const grid = createGrid(6,6);
 
-//         //act
-//         const rover = addRover(grid,1,2,DIRECTION.NORTH)
+        //act
+        const rover = addRover(grid,1,2,DIRECTION.NORTH)
 
-//         //assert
-//         expect(grid.contents).toEqual({rover});
-
-//     })
-// });
+        //assert
+        expect(rover).toEqual({type:"rover",x:1,y:2,direction:DIRECTION.NORTH})
+        expect(grid).toEqual({
+            width:6,
+            height:6,
+            contents:[rover]
+        });
+    })
+});

@@ -1,4 +1,5 @@
-const { createRover } = require("./marsrover");
+const { mars_log } = require("./mars_log");
+const { createRover } = require("./mars_rover");
 
 const createGrid = (width,height) => {
     return {
@@ -8,12 +9,12 @@ const createGrid = (width,height) => {
 };
 
 const addRover = (grid,x,y,direction) => {
-    if(!validateGridCoords(grid, {x,y})) {
-        log("rover not added", "coords for rover out of bounds")
+    if(!validateGridCoords(grid, x,y)) {
+        mars_log("rover not added", "coords for rover out of bounds")
         return;
     }
-    if(!gridPostionEmpty(grid,x,y)) {
-        log("rover not added", "coords for rover already occupied");
+    if(!gridPostionEmpty(grid,x,y)) { 
+        mars_log("rover not added", "coords for rover already occupied");
         return;
     }
 
@@ -29,7 +30,7 @@ function validateGridCoords(grid, x, y) {
 }
 
 function gridPostionEmpty(grid, x, y) {
-    return grid.contents?.some( item => item.x == x || item.y == y);
+    return ! grid.contents?.some( item => item.x == x && item.y == y);
 }
 
 
