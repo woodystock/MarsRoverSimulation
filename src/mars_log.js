@@ -1,7 +1,15 @@
+let _showLogs = true;
+
 const mars_log = (...msgs) => {
-    console.log(msgs.join("\n    => "));
+    if(_showLogs)
+        console.log(msgs.join("\n    => "));
+}
+
+const showMarsLogs = (show) => {
+    _showLogs = show;
 }
 
 module.exports = {
-    mars_log
+    mars_log,
+    showMarsLogs
 }

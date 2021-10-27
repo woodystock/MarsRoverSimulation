@@ -1,5 +1,7 @@
-const { DIRECTION } = require("../src/compass_direction");
+const { showMarsLogs } = require("../src/mars_log");
 const { createRover } = require("../src/mars_rover");
+
+showMarsLogs(false);
 
 describe("Rover creation:",() => {
     test.each([

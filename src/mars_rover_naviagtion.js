@@ -4,9 +4,8 @@ const navigateRoverPath = (grid,rover,path) => {
 
 }
 
-const moveRover = (rover,x,y) => {
-    rover.x = x;
-    rover.y = y;
+const advanceRover = (grid,roverIndex) => {
+
 }
 
 const turnRoverLeft = (rover) => {
@@ -31,7 +30,7 @@ const turnRoverRight = (rover) => {
 
 module.exports = {
     navigateRoverPath,
-    advanceRover: moveRover,
+    advanceRover,
     turnRoverLeft,
     turnRoverRight
 }

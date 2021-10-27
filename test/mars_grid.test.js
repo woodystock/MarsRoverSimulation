@@ -1,5 +1,7 @@
-const { DIRECTION } = require("../src/compass_direction");
-const { createGrid, addRover, gridCoordsOutOfBounds, gridCoordsOccupied } = require("../src/mars_grid");
+const { createGrid, addRover, gridCoordsOutOfBounds, gridCoordsOccupied, getGridContent } = require("../src/mars_grid");
+const { showMarsLogs } = require("../src/mars_log");
+
+showMarsLogs(false);
 
 describe("Grid creation:",() => {
     test.each([
@@ -12,7 +14,7 @@ describe("Grid creation:",() => {
         const grid = createGrid(width,height);
 
         //assert
-        expect(grid).toEqual({width,height});
+        expect(grid).toEqual({width,height,contents:[]});
     });
 });
 
@@ -58,7 +60,8 @@ describe("Adding rovers to a 6x6 grid:",() => {
     ])("at %i , %i looking %s", (x,y,direction) => {
 
         //act
-        const rover = addRover(grid,x,y,direction)
+        const roverIndex = addRover(grid,x,y,direction)
+        const rover = getGridContent(grid,roverIndex);
 
         //assert
         expect(rover).toEqual({type:"rover",x:x,y:y,direction:direction});
@@ -107,13 +110,15 @@ describe("Adding invalid rovers:",() => {
         const grid = createGrid(3,3);
 
         //act
-        const rover = addRover(grid,4,4,"N");
+        const roverIndex = addRover(grid,4,4,"N");
+        const rover = getGridContent(grid, roverIndex);
 
         //assert
         expect(rover).toBeFalsy()
         expect(grid).toEqual({
             width:3,
-            height:3
+            height:3,
+            contents:[]
         });
     });
 
@@ -123,8 +128,11 @@ describe("Adding invalid rovers:",() => {
         const grid = createGrid(3,3);
 
         //act
-        const rover1 = addRover(grid,1,1,"N");
-        const rover2 = addRover(grid,1,1,"S");
+        const rover1Index = addRover(grid,1,1,"N");
+        const rover2Index = addRover(grid,1,1,"S");
+
+        const rover1 = getGridContent(grid,rover1Index);
+        const rover2 = getGridContent(grid,rover2Index);
 
         //assert
         expect(rover1).toEqual({type:"rover",x:1,y:1,direction:"N"})

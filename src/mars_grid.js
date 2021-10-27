@@ -4,7 +4,8 @@ const { createRover } = require("./mars_rover");
 const createGrid = (width,height) => {
     return {
         width,
-        height
+        height,
+        contents:[]
     }
 };
 
@@ -20,23 +21,22 @@ const addRover = (grid,x,y,direction) => {
 
     const rover = createRover(x,y,direction);
 
-    grid.contents ? grid.contents.push(rover) : grid.contents = [rover];
+    
 
-    return rover;
+    return grid.contents.push(rover)-1;
 }
 
-function gridCoordsOutOfBounds(grid, x, y) {
-    return x < 0 || y < 0 || x > grid.width || y > grid.height;
-}
+const gridCoordsOutOfBounds = (grid, x, y) => x < 0 || y < 0 || x > grid.width || y > grid.height;
 
-function gridCoordsOccupied(grid, x, y) {
-    return grid.contents?.some( item => item.x == x && item.y == y);
-}
+const gridCoordsOccupied = (grid, x, y) => grid.contents?.some( item => item.x == x && item.y == y);
+
+const getGridContent = ( grid, contentIndex ) => grid.contents[contentIndex]
 
 
 module.exports = {
     createGrid,
     addRover,
     gridCoordsOutOfBounds,
-    gridCoordsOccupied
+    gridCoordsOccupied,
+    getGridContent
 }
