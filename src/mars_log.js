@@ -1,4 +1,4 @@
-let _showLogs = true;
+let _showLogs = false;
 
 /**
  * helper function to format logs throughout the program

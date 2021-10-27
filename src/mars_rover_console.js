@@ -34,11 +34,8 @@ const handleMarsRoverConsoleInputs = ( ...inputs) => {
             const roverIndex = handleRoverInput(plateau, inputs.shift());
 
             if(inputs.length > 0) {
-                handlePathInput(plateau, roverIndex, inputs.shift());
+                outputs.push(handlePathInput(plateau, roverIndex, inputs.shift()));
             }
-            
-            const rover = getPlateauContent(plateau, roverIndex);
-            outputs.push(rover.x + " " + rover.y + " " + rover.direction);
         }
     }
 
@@ -73,14 +70,17 @@ const handleRoverInput = (plateau, input) => {
 }
 
 /**
- * handles a valid rover input and returns the content index of the new rover
+ * handles a valid rover input and returns a formatted string of the rovers ending position
  * @param {obj} plateau 
  * @param {string} input -"x y direction" eg. "1 2 N"
- * @returns {number} index of the rover inside the plateau contents
+ * @returns {string} formatted string of the rovers ending position
  */
  const handlePathInput = (plateau, roverIndex, input) => {
     if(validatePathInput(input)) {
         navigateRoverPath(plateau, roverIndex,input);
+
+        const rover = getPlateauContent(plateau,roverIndex);
+        return rover.x + " " + rover.y + " " + rover.direction
     } else throw new Error("invalid path input sent to mars rover console");
 } 
 
