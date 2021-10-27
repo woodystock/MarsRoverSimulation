@@ -1,7 +1,7 @@
 const { addRover, getGridContent, createGrid } = require("../src/mars_grid");
 const { showMarsLogs } = require("../src/mars_log");
 const { createRover } = require("../src/mars_rover");
-const { turnRoverRight, turnRoverLeft, advanceRover } = require("../src/mars_rover_naviagtion");
+const { turnRoverRight, turnRoverLeft, advanceRover, getNextCoords } = require("../src/mars_rover_naviagtion");
 
 showMarsLogs(false);
 
@@ -43,6 +43,25 @@ describe("turn rover left:",() => {
     });
 });
 
+describe("getNextCoords:",() => {
+
+    test.each([
+        [1,1,"N",1,2],
+        [2,2,"S",2,1],
+        [4,1,"W",3,1],
+        [4,6,"E",5,6]
+    ])("starting at [%i, %i] looking %s, nextCoords are [%i, %i]", (startX,startY,direction,endX, endY) => {
+
+
+        //act
+        const newCoords = getNextCoords(startX, startY, direction);
+
+        //assert
+        expect(newCoords).toEqual([endX,endY]);
+    });
+});
+
+/*
 describe("advance rover:",() => {
 
     let grid;
@@ -68,4 +87,4 @@ describe("advance rover:",() => {
         //assert
         expect(rover).toEqual({type:"rover",x:endX,y:endY,direction:startDirection});
     });
-});
+});*/

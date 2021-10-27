@@ -1,4 +1,4 @@
-const { DIRECTION } = require("./compass_direction")
+const { DIRECTION, DIRECTION_MODIFIER } = require("./compass_direction")
 const { getGridContent } = require("./mars_grid")
 
 const navigateRoverPath = (grid,rover,path) => {
@@ -8,8 +8,14 @@ const navigateRoverPath = (grid,rover,path) => {
 const advanceRover = (grid,roverIndex) => {
     const rover = getGridContent(roverIndex);
 
-    
+
 }
+
+const getNextCoords = (x, y, direction) => {
+    const directionModifier = DIRECTION_MODIFIER[direction];
+
+    return [x + directionModifier.x, y + directionModifier.y]
+} 
 
 const turnRoverLeft = (rover) => {
     const directionOrder = Object.values(DIRECTION);
@@ -33,6 +39,7 @@ const turnRoverRight = (rover) => {
 
 module.exports = {
     navigateRoverPath,
+    getNextCoords,
     advanceRover,
     turnRoverLeft,
     turnRoverRight
