@@ -6,7 +6,7 @@ First install node and jest in the directory by running the following in the ter
 
         npm install --save-dev jest
 
-In order to add debugging, create a launch.json file (in the debug menu) and replace the generate file with the following:
+In order to add debugging, create a launch.json file (in the debug menu) and replace the generated file with the following:
 ```javascript
 {
   "version": "0.2.0",
@@ -76,29 +76,30 @@ The first input is looking for a width and height to create a plateau. This will
 
         5 5
 
-...will create a plateau with its north-east most position being the coordinates 5,5.
+...will create a plateau with its south west (bottom left) being 0,0 and its north-east (top right) being the coordinates 5,5.
 
 ## Next input -> Place a rover in the plateau
-The second input will place a rover at the given coords, looking in the direction <b>N</b>orth, <b>W</b>est, <b>S</b>outh, or <b>E</b>ast
+The second input will place a rover at the given coords iside that plateau, looking in the direction <b>N</b>orth, <b>W</b>est, <b>S</b>outh, or <b>E</b>ast
 <br>eg. the input
 
         1 2 N
 
-will place a rover at postion x = 1, y = 2, looking in the direction <b>N</b>orth.
+will place a rover at coordinate x = 1, y = 2, looking in the direction <b>N</b>orth.
 
 ## Next input -> Path for the rover to follow
 
-The next input should be a string containing either 
+The next input should be a string containing a combination of any of the following: 
         
         L - turn the rover left
         R - turn the rover right
         M - move the rover forward in its current direction
 
-so the path
+so the path...
 
         LMLM
 
-will try to move the robot "<b>left, forward, left, forward</b>" in that order. If it encounters the boundries of the plateau, or another robot, it will stop at its current position and direction and not continue with any more of the path.
+...will try to move the robot "<b>left, forward, left, forward</b>" in that order. 
+<br>If it encounters the boundries of the plateau, or another robot, it will stop at its current position and direction and not continue with any more of the path.
 <br>After this, you can then repeat inputs indefinitly for new rovers and movement paths...
 
 ## Using a single function call
@@ -129,7 +130,7 @@ const output = handleMarsRoverConsoleInputs(
 );
 ```
 ### Outputs
-The output of this call will be a list of all the rovers final positions and directions in the same format as the input.
+The output of this call will be a list of all the rovers final positions and directions after any movement, in the same format as the input.
 <br> Running the above will give the following output
 
         1 3 N
@@ -149,13 +150,13 @@ function handlePlateauInput(input)
 function handleRoverInput(plateau, input)
 function handlePathInput(plateau, roverIndex, input)
 ```
-These functions will validate the given input and do each of the above inputs seperatlly. As you can see, rovers require a pre-generated plateau and path require a plateau with a given rover index. These are returned by their retrospective input handler...
+These functions will validate the given input and do each of the above inputs seperatlly. Rovers will require a pre-generated plateau and paths will require a plateau and a given rover index. These are returned by their retrospective input handler...
         
         handlePlateauInput - returns a plateau object
         handleRoverInput - returns the index of the generated rover on the given plateau
         handlePathInput - returns the new position of the rover, formatted as above
 
-with the intention being they are passed along the input heirachy. The path input is slightly different in that it returns the formatted output string for that given rover.
+...with the intention being they are passed along the input heirachy. The path input is slightly different in that it returns the formatted output string for that given rover.
 
 # Possible Extensions
 To improve the program, here is a list of possible future additions that could be added...
