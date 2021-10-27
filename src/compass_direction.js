@@ -18,7 +18,13 @@ const DIRECTION_MODIFIER = {
     W: {x:-1,y:0}
 }
 
+/**
+ * Returns true if the given direction has a representation
+ */
+const isValidDirection = (direction) => Object.values(DIRECTION).includes(direction);
+
 module.exports = {
     DIRECTION,
-    DIRECTION_MODIFIER
+    DIRECTION_MODIFIER,
+    isValidDirection
 }

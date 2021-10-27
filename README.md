@@ -1,5 +1,7 @@
 
-# install jest
+# run
+
+
 npm install --save-dev jest
 
 # add debugging

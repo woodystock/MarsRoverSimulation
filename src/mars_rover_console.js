@@ -2,7 +2,7 @@ const { createPlateau, addRover, getPlateauContent } = require("./mars_plateau")
 const { navigateRoverPath } = require("./mars_rover_naviagtion");
 
 /**
- * A handler for a selection of inputs to the program.
+ * A handler for a list of inputs to the program.
  * 
  * The first input initialises the plateau. e.g. the input
  *  = > 5 5
@@ -28,32 +28,18 @@ const handleMarsRoverConsoleInputs = ( ...inputs) => {
     const outputs = [];
     if(inputs.length > 0)
     {
-        const plateauInput = inputs.shift();
-        if(validatePlateauInput(plateauInput)) {
+        const plateau = handlePlateauInput(inputs.shift());
 
-            const plateau = handlePlateauInput(plateauInput);
-            
-            while(inputs.length > 0) {
-                const roverInput = inputs.shift();
-                if(validateRoverInput(roverInput)){
+        while(inputs.length > 0) {
+            const roverIndex = handleRoverInput(plateau, inputs.shift());
 
-                    const roverIndex = handleRoverInput(plateau, roverInput);
-
-                    if(inputs.length > 0) {
-                        const pathInput = inputs.shift();
-
-                        if(validatePathInput(pathInput)) {
-                            navigateRoverPath(plateau, roverIndex,pathInput);
-                        }
-                    }
-                    
-                    const rover = getPlateauContent(plateau, roverIndex);
-                    outputs.push(rover.x + " " + rover.y + " " + rover.direction);
-                }
-                else throw new Error("invalid rover input sent to mars rover console");
+            if(inputs.length > 0) {
+                handlePathInput(plateau, roverIndex, inputs.shift());
             }
+            
+            const rover = getPlateauContent(plateau, roverIndex);
+            outputs.push(rover.x + " " + rover.y + " " + rover.direction);
         }
-        else throw new Error("invalid plateau input sent to mars rover console");
     }
 
     return outputs;
@@ -66,8 +52,10 @@ const handleMarsRoverConsoleInputs = ( ...inputs) => {
  * @returns {obj} - obj representing a plateau
  */
 const handlePlateauInput = (input) => {
-    const plateauSize = input.split(" ");
-    return createPlateau(Number(plateauSize[0]), Number(plateauSize[1]));
+    if(validatePlateauInput(input)) {
+        const plateauSize = input.split(" ");
+        return createPlateau(Number(plateauSize[0]), Number(plateauSize[1]));
+    } else throw new Error("invalid plateau input sent to mars rover console");
 }
 
 
@@ -78,9 +66,22 @@ const handlePlateauInput = (input) => {
  * @returns {number} index of the rover inside the plateau contents
  */
 const handleRoverInput = (plateau, input) => {
-    const roverPosition = input.split(" ");
+    if(validateRoverInput(input)) {
+        const roverPosition = input.split(" ");
+        return addRover(plateau,Number(roverPosition[0]),Number(roverPosition[1]),roverPosition[2]);
+    } else throw new Error("invalid rover input sent to mars rover console");
+}
 
-    return addRover(plateau,Number(roverPosition[0]),Number(roverPosition[1]),roverPosition[2]);
+/**
+ * handles a valid rover input and returns the content index of the new rover
+ * @param {obj} plateau 
+ * @param {string} input -"x y direction" eg. "1 2 N"
+ * @returns {number} index of the rover inside the plateau contents
+ */
+ const handlePathInput = (plateau, roverIndex, input) => {
+    if(validatePathInput(input)) {
+        navigateRoverPath(plateau, roverIndex,input);
+    } else throw new Error("invalid path input sent to mars rover console");
 } 
 
 

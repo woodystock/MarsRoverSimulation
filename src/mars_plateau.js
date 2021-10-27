@@ -1,3 +1,4 @@
+const { isValidDirection } = require("./compass_direction");
 const { mars_log } = require("./mars_log");
 const { createRover } = require("./mars_rover");
 
@@ -31,6 +32,11 @@ const createPlateau = (width,height) => {
  * @returns {number} - index of rover in grids contents
  */
 const addRover = (plateau,x,y,direction) => {
+    if(! plateau)                       throw new Error("plateau is required");
+    if(isNaN(x) || isNaN(y))            throw new Error("x and y (as number) are required");
+    if(! isValidDirection(direction))   throw new Error("direction ['N || W || S || E'] is required")  
+
+
     if(plateauCoordsOutOfBounds(plateau, x,y)) {
         mars_log("rover not added", "coords for rover out of bounds")
         return;
@@ -40,7 +46,7 @@ const addRover = (plateau,x,y,direction) => {
         return;
     }
 
-    return plateau.contents.push( createRover(x,y,direction) )-1;
+    return plateau?.contents?.push( createRover(x,y,direction) )-1;
 }
 
 
@@ -51,7 +57,7 @@ const addRover = (plateau,x,y,direction) => {
  * @param {number} y 
  * @returns {boolean} is out of bounds
  */
-const plateauCoordsOutOfBounds = (plateau, x, y) => x < 0 || y < 0 || x > plateau.width || y > plateau.height;
+const plateauCoordsOutOfBounds = (plateau, x, y) => x < 0 || y < 0 || x > plateau?.width || y > plateau?.height;
 
 
 /**
@@ -61,7 +67,7 @@ const plateauCoordsOutOfBounds = (plateau, x, y) => x < 0 || y < 0 || x > platea
  * @param {number} y 
  * @returns {boolean} are occupied
  */
-const plateauCoordsOccupied = (plateau, x, y) => plateau.contents?.some( item => item.x == x && item.y == y);
+const plateauCoordsOccupied = (plateau, x, y) => plateau?.contents?.some( item => item.x == x && item.y == y);
 
 
 /**
