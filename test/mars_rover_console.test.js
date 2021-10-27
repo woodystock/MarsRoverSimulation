@@ -1,4 +1,4 @@
-const { validatePlateauInput, validateRoverInput, validatePathInput, marsRoverConsoleInputs } = require("../src/mars_rover_console");
+const { validatePlateauInput, validateRoverInput, validatePathInput, handleMarsRoverConsoleInputs } = require("../src/mars_rover_console");
 
 describe("validatePlateauInput():",() => {
     test.each([
@@ -76,7 +76,7 @@ describe("marsRoverConsoleInputs()", () => {
     ])("inputs: %s => outputs: %s", (inputs, outputs) => {
 
         //act
-        const result = marsRoverConsoleInputs(...inputs);
+        const result = handleMarsRoverConsoleInputs(...inputs);
 
         //assert
         expect(result).toEqual(outputs);
