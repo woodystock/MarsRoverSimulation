@@ -7,7 +7,7 @@ const TYPE_ROVER = "rover";
  * @param {[NWSE]} direction 
  * @returns a new rover object
  */
-const createRover = (x,y,direction) => {
+const createRover = (x, y, direction) => {
     return {
         type: TYPE_ROVER,
         x,

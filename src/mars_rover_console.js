@@ -24,17 +24,16 @@ const { navigateRoverPath } = require("./mars_rover_naviagtion");
  * @param  {...any} inputs - list of specific inputs. [grid_size],[rover_pos],[rover_path],[rover_pos],[rover_path]...
  * @returns {[outputs]} - list of final positions of the rovers
  */
-const handleMarsRoverConsoleInputs = ( ...inputs) => {
+const handleMarsRoverConsoleInputs = (...inputs) => {
 
     const outputs = [];
-    if(inputs.length > 0)
-    {
+    if (inputs.length > 0) {
         const plateau = handlePlateauInput(inputs.shift());
 
-        while(inputs.length > 0) {
+        while (inputs.length > 0) {
             const roverIndex = handleRoverInput(plateau, inputs.shift());
 
-            if(inputs.length > 0) {
+            if (inputs.length > 0) {
                 outputs.push(handlePathInput(plateau, roverIndex, inputs.shift()));
             }
         }
@@ -50,7 +49,7 @@ const handleMarsRoverConsoleInputs = ( ...inputs) => {
  * @returns {obj} - obj representing a plateau
  */
 const handlePlateauInput = (input) => {
-    if(validatePlateauInput(input)) {
+    if (validatePlateauInput(input)) {
         const plateauSize = input.split(" ");
         return createPlateau(Number(plateauSize[0]), Number(plateauSize[1]));
     } else throw new Error("invalid plateau input sent to mars rover console");
@@ -64,10 +63,10 @@ const handlePlateauInput = (input) => {
  * @returns {number} index of the rover inside the plateau contents
  */
 const handleRoverInput = (plateau, input) => {
-    if(validateRoverInput(input)) {
+    if (validateRoverInput(input)) {
         const roverPosition = input.split(" ");
-        const rover = createRover( Number(roverPosition[0]),Number(roverPosition[1]),roverPosition[2]);
-        return addRover(plateau,rover);
+        const rover = createRover(Number(roverPosition[0]), Number(roverPosition[1]), roverPosition[2]);
+        return addRover(plateau, rover);
     } else throw new Error("invalid rover input sent to mars rover console");
 }
 
@@ -77,14 +76,14 @@ const handleRoverInput = (plateau, input) => {
  * @param {string} input -"x y direction" eg. "1 2 N"
  * @returns {string} formatted string of the rovers ending position
  */
- const handlePathInput = (plateau, roverIndex, input) => {
-    if(validatePathInput(input)) {
-        navigateRoverPath(plateau, roverIndex,input);
+const handlePathInput = (plateau, roverIndex, input) => {
+    if (validatePathInput(input)) {
+        navigateRoverPath(plateau, roverIndex, input);
 
-        const rover = getPlateauContent(plateau,roverIndex);
+        const rover = getPlateauContent(plateau, roverIndex);
         return rover.x + " " + rover.y + " " + rover.direction
     } else throw new Error("invalid path input sent to mars rover console");
-} 
+}
 
 
 /**

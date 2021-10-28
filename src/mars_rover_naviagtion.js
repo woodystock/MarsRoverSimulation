@@ -10,14 +10,14 @@ const { mars_log } = require("./mars_log");
  * @param {Array} path 
  * @returns true if the path was completed succesffully
  */
-const navigateRoverPath = (plateau,roverIndex,path) => {
-    const rover = getPlateauContent(plateau,roverIndex);
+const navigateRoverPath = (plateau, roverIndex, path) => {
+    const rover = getPlateauContent(plateau, roverIndex);
 
-    for(const instruction of path) {
-        if(instruction === "L") turnRoverLeft(rover);
-        else if(instruction === "R") turnRoverRight(rover);
-        else if(instruction === "M") {
-            if(! advanceRover(plateau,roverIndex)) {
+    for (const instruction of path) {
+        if (instruction === "L") turnRoverLeft(rover);
+        else if (instruction === "R") turnRoverRight(rover);
+        else if (instruction === "M") {
+            if (!advanceRover(plateau, roverIndex)) {
                 return false;
             }
         }
@@ -32,18 +32,18 @@ const navigateRoverPath = (plateau,roverIndex,path) => {
  * @param {number} roverIndex 
  * @returns true if the rover was able to move
  */
-const advanceRover = (plateau,roverIndex) => {
-    const rover = getPlateauContent(plateau,roverIndex);
+const advanceRover = (plateau, roverIndex) => {
+    const rover = getPlateauContent(plateau, roverIndex);
 
-    const nextCoords = getNextCoords(rover.x, rover.y, rover.direction); 
+    const nextCoords = getNextCoords(rover.x, rover.y, rover.direction);
 
-    if(plateauCoordsOutOfBounds(plateau,nextCoords.x, nextCoords.y)) {
-        mars_log("unable to advance rover","rover would move out of bounds");
+    if (plateauCoordsOutOfBounds(plateau, nextCoords.x, nextCoords.y)) {
+        mars_log("unable to advance rover", "rover would move out of bounds");
         return false;
     }
 
-    if(plateauCoordsOccupied(plateau,nextCoords.x,nextCoords.y)) {
-        mars_log("unable to advance rover","plateau space already occupied");
+    if (plateauCoordsOccupied(plateau, nextCoords.x, nextCoords.y)) {
+        mars_log("unable to advance rover", "plateau space already occupied");
         return false;
     }
 
@@ -63,8 +63,8 @@ const advanceRover = (plateau,roverIndex) => {
 const getNextCoords = (x, y, direction) => {
     const directionModifier = DIRECTION_MODIFIER[direction];
 
-    return {x:x + directionModifier.x, y:y + directionModifier.y}
-} 
+    return { x: x + directionModifier.x, y: y + directionModifier.y }
+}
 
 /**
  * Turn a rover 90 degrees left on the compass
@@ -75,7 +75,7 @@ const turnRoverLeft = (rover) => {
     const directionOrder = Object.values(DIRECTION);
     const dirIndex = directionOrder.indexOf(rover.direction);
 
-    if( dirIndex != -1)
+    if (dirIndex != -1)
         rover.direction = directionOrder[dirIndex === 0 ? 3 : dirIndex - 1];
 
     return rover;
@@ -90,7 +90,7 @@ const turnRoverRight = (rover) => {
     const directionOrder = Object.values(DIRECTION);
     const dirIndex = directionOrder.indexOf(rover.direction);
 
-    if( dirIndex != -1)
+    if (dirIndex != -1)
         rover.direction = directionOrder[dirIndex === 3 ? 0 : dirIndex + 1];
 
     return rover;
