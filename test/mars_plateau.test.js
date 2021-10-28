@@ -1,4 +1,5 @@
 const { createPlateau, addRover, plateauCoordsOutOfBounds, plateauCoordsOccupied, getPlateauContent } = require("../src/mars_plateau");
+const { createRover } = require("../src/mars_rover");
 
 describe("createPlateau():",() => {
     test.each([
@@ -57,16 +58,12 @@ describe("addRover():",() => {
     ])("at %i , %i looking %s", (x,y,direction) => {
 
         //act
-        const roverIndex = addRover(plateau,x,y,direction)
-        const rover = getPlateauContent(plateau,roverIndex);
+        const rover = createRover(x,y,direction);
+        addRover(plateau,rover)
 
         //assert
         expect(rover).toEqual({type:"rover",x:x,y:y,direction:direction});
-        expect(plateau).toEqual({
-            width:6,
-            height:6,
-            contents:[rover]
-        });
+        expect(plateau.contents).toEqual([rover]);
     });
 });
 
@@ -76,8 +73,8 @@ describe("Checking if coords are already occupied:",() => {
 
     beforeEach(() => {
         plateau = createPlateau(6,6);
-        addRover(plateau,1,2,"N");
-        addRover(plateau,4,2,"S");
+        addRover(plateau,createRover(1,2,"N"));
+        addRover(plateau,createRover(4,2,"S"));
     });
 
 
@@ -105,13 +102,12 @@ describe("addRover() - validation:",() => {
 
         //arrange
         const plateau = createPlateau(3,3);
+        const rover = createRover(4,4,"N")
 
         //act
-        const roverIndex = addRover(plateau,4,4,"N");
-        const rover = getPlateauContent(plateau, roverIndex);
+        addRover(plateau,rover);
 
         //assert
-        expect(rover).toBeFalsy()
         expect(plateau).toEqual({
             width:3,
             height:3,
@@ -123,17 +119,15 @@ describe("addRover() - validation:",() => {
 
         //arrange
         const plateau = createPlateau(3,3);
+        const rover1 = createRover(1,1,"N")
+        const rover2 = createRover(1,1,"S")
 
         //act
-        const rover1Index = addRover(plateau,1,1,"N");
-        const rover2Index = addRover(plateau,1,1,"S");
-
-        const rover1 = getPlateauContent(plateau,rover1Index);
-        const rover2 = getPlateauContent(plateau,rover2Index);
+        addRover(plateau,rover1);
+        addRover(plateau,rover2);
 
         //assert
         expect(rover1).toEqual({type:"rover",x:1,y:1,direction:"N"})
-        expect(rover2).toBeFalsy()
         expect(plateau).toEqual({
             width:3,
             height:3,

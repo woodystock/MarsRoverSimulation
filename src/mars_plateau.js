@@ -31,22 +31,19 @@ const createPlateau = (width,height) => {
  * @param  {[NSWE]} direction - direction the robot is facing
  * @returns {number} - index of rover in grids contents
  */
-const addRover = (plateau,x,y,direction) => {
-    if(! plateau)                       throw new Error("plateau is required");
-    if(isNaN(x) || isNaN(y))            throw new Error("x and y (as number) are required");
-    if(! isValidDirection(direction))   throw new Error("direction ['N || W || S || E'] is required")  
+const addRover = (plateau,rover) => {
+    if(! plateau)                       throw new Error("plateau is required");  
 
-
-    if(plateauCoordsOutOfBounds(plateau, x,y)) {
+    if(plateauCoordsOutOfBounds(plateau, rover.x,rover.y)) {
         mars_log("rover not added", "coords for rover out of bounds")
         return;
     }
-    if(plateauCoordsOccupied(plateau,x,y)) { 
+    if(plateauCoordsOccupied(plateau,rover.x,rover.y)) { 
         mars_log("rover not added", "coords for rover already occupied");
         return;
     }
 
-    return plateau?.contents?.push( createRover(x,y,direction) )-1;
+    return plateau?.contents?.push( rover ) - 1;
 }
 
 
