@@ -1,4 +1,5 @@
 const { createPlateau, addRover, getPlateauContent } = require("./mars_plateau");
+const { createRover } = require("./mars_rover");
 const { navigateRoverPath } = require("./mars_rover_naviagtion");
 
 /**
@@ -65,7 +66,8 @@ const handlePlateauInput = (input) => {
 const handleRoverInput = (plateau, input) => {
     if(validateRoverInput(input)) {
         const roverPosition = input.split(" ");
-        return addRover(plateau,Number(roverPosition[0]),Number(roverPosition[1]),roverPosition[2]);
+        const rover = createRover( Number(roverPosition[0]),Number(roverPosition[1]),roverPosition[2]);
+        return addRover(plateau,rover);
     } else throw new Error("invalid rover input sent to mars rover console");
 }
 

@@ -75,8 +75,8 @@ describe("advanceRover():",() => {
     ])("starting at [2, 2] looking %s, advance 1 to [%i, %i]", (direction,endX, endY) => {
 
         //arrange
-        const roverIndex = addRover(plateau,2,2,direction);
-        const rover = getPlateauContent(plateau, roverIndex);
+        const rover = createRover(2,2,direction);
+        const roverIndex = addRover(plateau,rover);
 
         //act
         const result = advanceRover(plateau, roverIndex);
@@ -94,8 +94,8 @@ describe("advanceRover():",() => {
     ])("starting at [%i,%i] looking %s, do not advance out of bounds", (startX,startY,direction) => {
 
     //arrange
-    const roverIndex = addRover(plateau,startX,startY,direction);
-    const rover = getPlateauContent(plateau, roverIndex);
+    const rover = createRover(startX,startY,direction);
+    const roverIndex = addRover(plateau,rover);
 
     //act
     const result = advanceRover(plateau, roverIndex);
@@ -109,10 +109,11 @@ describe("advanceRover():",() => {
     test("rover1 at [2,2] looking N, and rover2 at [2,3] looking N, rover1 cannot advance", () => {
 
         //arange
-        const rover1Index = addRover(plateau,2,2,"N");
-        const rover2Index = addRover(plateau,2,3,"N");
+        const rover1 = createRover(2,2,"N");
+        const rover2 = createRover(2,3,"N");
+        const rover1Index = addRover(plateau,rover1);
+        const rover2Index = addRover(plateau,rover2);
 
-        const rover1 = getPlateauContent(plateau,rover1Index);
 
         const result = advanceRover(plateau, rover1Index);
 
@@ -142,8 +143,8 @@ describe("navigateRoverPath():",() => {
     ])("starting at [%i, %i, %s], follow the path '%s' to get to [%i, %i, %s]", (startX,startY,startDirection,path,endX,endY,endDirection) => {
 
         //arrange
-        const roverIndex = addRover(plateau,startX,startY,startDirection);
-        const rover = getPlateauContent(plateau, roverIndex);
+        const rover = createRover(startX,startY,startDirection)
+        const roverIndex = addRover(plateau,rover);
 
         //act
         const result = navigateRoverPath(plateau,roverIndex,path);
@@ -160,8 +161,8 @@ describe("navigateRoverPath():",() => {
         [6,6,"S","LM"]
     ])("starting at [%i,%i] looking %s, do not follow the path '%s' out of bounds", (startX,startY,direction,path) => {
         //arrange
-        const roverIndex = addRover(plateau,startX,startY,direction);
-        const rover = getPlateauContent(plateau, roverIndex);
+        const rover = createRover(startX,startY,direction);
+        const roverIndex = addRover(plateau,rover);
 
         //act
         const result = navigateRoverPath(plateau,roverIndex,path);
@@ -174,9 +175,10 @@ describe("navigateRoverPath():",() => {
 
     test("rover1 at [1, 1, N], and rover2 at [2, 3, N] rover1 follows path 'MMRMMMMRMMR' but stops before moving into rover2", () => {
         //arrange
-        const rover1Index = addRover(plateau,1,1,"N");
-        const rover1 = getPlateauContent(plateau, rover1Index);
-        const rover2Index = addRover(plateau,2,3,"N");
+        const rover1 = createRover(1,1,"N");
+        const rover1Index = addRover(plateau,rover1);
+        const rover2 = createRover(2,3,"N") 
+        const rover2Index = addRover(plateau,rover2);
 
 
         //act
